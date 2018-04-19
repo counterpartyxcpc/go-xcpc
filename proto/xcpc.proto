@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package xcpctx;
+
+message xcpc_transaction{
+    string sourceaddrs = 1;
+    repeated string destaddrs = 2;
+    float bchamount = 3;
+    float servicefee = 4;
+    TxOutput xcpcdata =5;
+}
+
+message TxOutput{
+    string testdata = 1;
+}
+
+
