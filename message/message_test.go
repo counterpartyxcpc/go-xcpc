@@ -1,7 +1,10 @@
 package message
 
 import (
+	xpcptx "go-xcpc/proto"
 	"testing"
+
+	proto "github.com/golang/protobuf/proto"
 )
 
 type rc4TestMes struct {
@@ -30,12 +33,47 @@ var rc4testcases = []keyplainciper{
 	},
 }
 
-func TestXcpcRc4Enc(t *testing.T) {
+var prototestcases = []xpcptx.XCPCTx{
+	{Id: 0, Data: "This is a test message"},
+	{Id: 110, Data: "Hello world"},
+	{Id: 18446744073709551615, Data: "Max value test"},
+}
+
+// TestRc4Enc verify the RC4 encryption is working properly with respect to the most common test examples
+func TestRc4Enc(t *testing.T) {
 	for _, kp := range rc4testcases {
-		cipher := XcpcRc4Enc(kp.key, kp.plaintext)
+		cipher, err := Rc4Enc(kp.key, kp.plaintext)
+		if err != nil {
+			t.Fatalf("Rc4Enc function error:\n%v", err)
+		}
 		for i, v := range cipher {
 			if v != kp.ciphertext[i] {
 				t.Fatalf("test %s fail:\nmismatch at byte %d:\nhave %x\nwant %x", kp.plaintext, i, cipher, kp.ciphertext)
+			}
+		}
+	}
+}
+
+// TestProtoXCPCTxEncAndDec test the RC4 encryption and decryption of protobuf serialized message
+func TestProtoXCPCTxEncAndDec(t *testing.T) {
+	for j, msg := range prototestcases {
+		b, err := proto.Marshal(&msg)
+		if err != nil {
+			t.Fatalf("test %d - (%v) fail:\nMarshal protobuf error:\n%v", j, msg, err)
+		}
+		key := []byte("Key")
+		cipher, err := Rc4Enc(key, b)
+		if err != nil {
+			t.Fatalf("test %d - (%v) fail:\nRc4Enc function error:\n%v", j, msg, err)
+		}
+		// fmt.Printf("%x\n", cipher)
+		plaintext, err := Rc4Enc(key, cipher)
+		if err != nil {
+			t.Fatalf("test %d - (%v) fail:\nRc4Enc function error:\n%v", j, msg, err)
+		}
+		for i, v := range plaintext {
+			if v != b[i] {
+				t.Fatalf("test %d - (%v) fail:\nmismatch at byte %d:\nhave %x\nwant %x", j, msg, i, plaintext, b)
 			}
 		}
 	}
