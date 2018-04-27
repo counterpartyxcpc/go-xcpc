@@ -1,6 +1,8 @@
 package message
 
 import (
+	"encoding/hex"
+	"fmt"
 	xpcptx "go-xcpc/proto"
 	"testing"
 
@@ -13,6 +15,10 @@ type rc4TestMes struct {
 
 type keyplainciper struct {
 	key, plaintext, ciphertext []byte
+}
+
+type keyciper struct {
+	key, ciphertext []byte
 }
 
 // Test vectors from the Wikipedia page: http://en.wikipedia.org/wiki/RC4
@@ -30,6 +36,26 @@ var rc4testcases = []keyplainciper{
 		[]byte{0xdf, 0x6f, 0x0d, 0xe6, 0x39, 0x58, 0x07, 0x9f, 0x28, 0x4c, 0xc5, 0x12, 0xec, 0xfd, 0x84, 0x34, 0x37, 0xe4, 0x0b, 0x58, 0xbf, 0x47, 0x8b, 0x87, 0xd8, 0x64, 0xf3, 0xf5, 0xf4, 0xde, 0xe2, 0x0e},
 		[]byte{0x41, 0x0a, 0x09, 0x5f, 0x92, 0x65, 0x43, 0x17, 0xca, 0x66, 0x94, 0x84, 0x13, 0x00, 0x84, 0x90, 0x92, 0xa6, 0xf1, 0x04, 0x3d, 0xdb, 0xd8, 0x98, 0x0e, 0x26, 0x9b, 0x44, 0x17, 0xcf, 0x2d, 0x2b, 0x5b, 0x0d, 0xf0, 0x3a, 0xfc, 0x16, 0x4a, 0xe8, 0x65, 0x89, 0x6e},
 		[]byte{0x43, 0x4e, 0x54, 0x52, 0x50, 0x52, 0x54, 0x59, 0x14, 0x8f, 0x78, 0x71, 0x52, 0x11, 0xfd, 0xc7, 0xf8, 0x00, 0x00, 0x00, 0x02, 0x54, 0x0b, 0xe4, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x07, 0x76, 0x64, 0x67, 0x72, 0x75, 0x63, 0x6b},
+	},
+}
+
+// This is a testcase for xcp transaction in bitcoin network
+var xcprc4cases = []keyciper{
+	// Transaction link: https://www.blocktrail.com/BTC/tx/949c1596236102065db47b4a164c04a8766c255a631fbf7ea93798efd4db6155
+	// counterparty asset name: TRIGGERS
+	// Input address first transaction ID
+	// OP_RETURN
+	{
+		[]byte("1567798bbc628fc3ac03e74d888d5504324dc5c4dc59db16d4a336ec5ad8b701"),
+		[]byte("a2f10506c0242cfcc5b0dc9204b89a6c2c2814c0610be4fbddfc3d2c14209bb679f9c538a582810b5e1f5a6b6533"),
+	},
+	// Transaction link: https://www.blocktrail.com/BTC/tx/933884dff9d930fdaf5ae3bf335293faa3ffa08b622b912ee7c6558029bde2a4
+	// counterparty asset name: XCP
+	// Input address first transaction ID
+	// OP_RETURN
+	{
+		[]byte("2dbebbbd930613fd7ad3851ab0ff844fbbdab8c21b3df95f902fd30f8932420a"),
+		[]byte("1dbff188792e64d8fe2bd6cf0429bfe2e843a07804a3f2cf308d8afc5a42650c5d1319803899768167ab94757785"),
 	},
 }
 
@@ -76,5 +102,26 @@ func TestProtoXCPCTxEncAndDec(t *testing.T) {
 				t.Fatalf("test %d - (%v) fail:\nmismatch at byte %d:\nhave %x\nwant %x", j, msg, i, plaintext, b)
 			}
 		}
+	}
+}
+
+// Reveal the XCP message plaintext
+func TestXCPRC4(t *testing.T) {
+	for j, xcp := range xcprc4cases {
+		kh := make([]byte, hex.DecodedLen(len(xcp.key)))
+		ciph := make([]byte, hex.DecodedLen(len(xcp.ciphertext)))
+		n, err := hex.Decode(kh, xcp.key)
+		if err != nil {
+			t.Fatalf("test XCP example %d fail:\n%x hex decode error\ndecoded bytes %d", j, xcp.key, n)
+		}
+		m, err := hex.Decode(ciph, xcp.ciphertext)
+		if err != nil {
+			t.Fatalf("test XCP example %d fail:\n%x hex decode error\ndecoded bytes %d", j, xcp.ciphertext, m)
+		}
+		p, err := Rc4Enc(kh, ciph)
+		if err != nil {
+			t.Fatalf("test XCP example %d fail:\nRc4Enc err %v", j, err)
+		}
+		fmt.Printf("%d\n%x\n%v\n%s\n", j, p, p, p)
 	}
 }
