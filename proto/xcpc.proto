@@ -3,8 +3,16 @@ syntax = "proto3";
 package xcpctx;
 
 message XCPCTx{
-    uint64 id = 1;
-    string data = 2;
+    enum XCPCMsgType{
+        UNIVERSIAL = 0;
+        BROADCAST = 1;
+        CANCEL = 2;
+        DIVIDENT = 3;
+        ISSUANCE = 4;
+        ORDER = 5;
+        SEND = 6;
+    }
+
 }
 
 

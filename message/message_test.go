@@ -3,8 +3,9 @@ package message
 import (
 	"encoding/hex"
 	"fmt"
-	xpcptx "go-xcpc/proto"
 	"testing"
+
+	xpcptx "go-xcpc/proto"
 
 	proto "github.com/golang/protobuf/proto"
 )
@@ -56,6 +57,33 @@ var xcprc4cases = []keyciper{
 	{
 		[]byte("2dbebbbd930613fd7ad3851ab0ff844fbbdab8c21b3df95f902fd30f8932420a"),
 		[]byte("1dbff188792e64d8fe2bd6cf0429bfe2e843a07804a3f2cf308d8afc5a42650c5d1319803899768167ab94757785"),
+	},
+	// Transaction link: https://www.blocktrail.com/tBTC/tx/c9de23c23a2f31005b447d6f527c66f5e9917f644fa8d1172ef31d737fcf1821#tx_messages
+	// counterparty asset name: XCP
+	// Input address first transaction ID
+	// OP_RETURN
+	{
+		[]byte("3e9acc6ffa8be2bd629f74f7fd369cc29f4dc207ba431888a007e10b608a7962"),
+		[]byte("53c8b4c54e312d74b81ec8d07b6f3ad27ffdeb489b85ba15c2249fa40237d85b0e2ee26214d2ee04cac0c3eda771c1ceb8e7336aafb8"),
+	},
+	// Transaction link: https://www.blocktrail.com/tBTC/tx/eee67f9955f4cb77d38f49c4294704909adea247aaacffd93873d5032e84e214#tx_messages
+	// counterparty asset name: XCP
+	// send message: 10 xcp
+	// Input address first transaction ID
+	// OP_RETURN
+	{
+		[]byte("c9de23c23a2f31005b447d6f527c66f5e9917f644fa8d1172ef31d737fcf1821"),
+		[]byte("483053a3223e3df277bb72831a6604de7744054b0927f7d0414a47746438ac4832bc20f3d2f59668fa721549f63e"),
+	},
+	// Transaction link: https://www.blocktrail.com/tBTC/tx/3e9acc6ffa8be2bd629f74f7fd369cc29f4dc207ba431888a007e10b608a7962
+	{
+		[]byte("e2cd21105af9f6ba542e84497633d4af6e0985d9a389f434e030542126a78a5f"),
+		[]byte("b82a5a83dcab84cd13c1a69a2fc4e6585b0e4122e4e9a721305f81f4b50f705d5e3fba9a9e4cfdd384796fb36d25"),
+	},
+	// Transaction link: https://www.blocktrail.com/tBTC/tx/e2cd21105af9f6ba542e84497633d4af6e0985d9a389f434e030542126a78a5f
+	{
+		[]byte("1789916b3326647d973606cdbd15c4aa127e4b7079bccf599905e14a9f22593a"),
+		[]byte("1ea10fe4057187e74949431d01f73f4892fe13a72afbc856ce42db8f6ec29b2a0a7de7fa9a68ce942bbaa5b956fdec88c6a62fbe30dafdf2"),
 	},
 }
 
