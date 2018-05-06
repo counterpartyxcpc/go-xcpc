@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	xpcptx "go-xcpc/proto"
+	xcpctx "go-xcpc/proto"
 
 	proto "github.com/golang/protobuf/proto"
 )
@@ -87,10 +87,8 @@ var xcprc4cases = []keyciper{
 	},
 }
 
-var prototestcases = []xpcptx.XCPCTx{
-	{Id: 0, Data: "This is a test message"},
-	{Id: 110, Data: "Hello world"},
-	{Id: 18446744073709551615, Data: "Max value test"},
+var prototestcases = []xcpctx.XCPCsend{
+	{Asset: "XCPC", Quantity: 100, Address: "1EtwuGeP6t6bAJjKCHuRC67MFi4pqXF5i9"},
 }
 
 // TestRc4Enc verify the RC4 encryption is working properly with respect to the most common test examples

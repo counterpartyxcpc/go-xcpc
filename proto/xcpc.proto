@@ -2,18 +2,11 @@ syntax = "proto3";
 
 package xcpctx;
 
-message XCPCTx{
-    enum XCPCMsgType{
-        UNIVERSIAL = 0;
-        BROADCAST = 1;
-        CANCEL = 2;
-        DIVIDENT = 3;
-        ISSUANCE = 4;
-        ORDER = 5;
-        SEND = 6;
-    }
-
+message XCPCsend{
+    string asset = 1;
+    uint64 quantity = 2;
+    string address = 3;
+    string memo = 4; 
 }
-
 
 
