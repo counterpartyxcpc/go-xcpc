@@ -9,4 +9,9 @@ message XCPCsend{
     string memo = 4; 
 }
 
-
+message XCPCbroadcast{
+    string text = 1;
+    int64 value = 2;
+    int32 feefraction = 3;
+    string timestamp = 4;
+}

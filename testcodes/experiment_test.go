@@ -22,4 +22,3 @@ var examp = []rc4Test{
 func TestExperiment(t *testing.T) {
 	Experiment()
 }
-

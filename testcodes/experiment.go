@@ -52,11 +52,12 @@ func XcpcToByte(filename string) {
 // Experiment test
 func Experiment() {
 	examtx := initxcpctx()
+	// x is the plain protobuf message
 	x, err := proto.Marshal(examtx)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("Plain protobuf sample msg:\n%v\n", x)
+	fmt.Printf("Plain protobuf sample msg:\n%x\n", x)
 	f, _ := os.Create("./x.log")
 	defer f.Close()
 	encmsg, err := enc.Rc4Enc(key, x)
@@ -66,4 +67,8 @@ func Experiment() {
 	fmt.Printf("RC4 encrypted msg:\n%x\n.\n", encmsg)
 	f.Write(x)
 	XcpcToByte("./x.log")
+	ff, _ := os.Create("./encx.log")
+	defer ff.Close()
+	ff.Write(encmsg)
+
 }
