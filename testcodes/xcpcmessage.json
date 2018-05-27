@@ -1,9 +1,0 @@
-{
-    "sourceaddrs" : "0x123ladjiajfbnkuajdn" ,
-    "destaddrs" : ["29jiadjuabjdaakdjnsdlalsmdk","dadsadasdafasfs"],
-    "bchamount" : 0.000001,
-    "servicefee" : 0.000001,
-    "xcpcdata": {
-        "testdata": "this is a test message for xcpc"
-    }
-}
