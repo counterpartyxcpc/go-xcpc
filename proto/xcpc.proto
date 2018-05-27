@@ -15,3 +15,10 @@ message XCPCbroadcast{
     int32 feefraction = 3;
     string timestamp = 4;
 }
+
+message XCPCTransaction{
+    oneof msgtype{
+        XCPCsend send= 1;
+        XCPCbroadcast broadcast = 2;
+    }
+}
