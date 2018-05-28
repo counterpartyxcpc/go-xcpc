@@ -2,21 +2,22 @@ syntax = "proto3";
 
 package xcpctx;
 
-message XCPCsend{
-    string asset = 1;
-    uint64 quantity = 2;
-    string address = 3;
-    string memo = 4; 
-}
 
-message XCPCbroadcast{
-    string text = 1;
-    int64 value = 2;
-    int32 feefraction = 3;
-    string timestamp = 4;
-}
 
 message XCPCTransaction{
+    message XCPCsend{
+        string asset = 1;
+        uint64 quantity = 2;
+        string address = 3;
+        string memo = 4; 
+    }
+
+    message XCPCbroadcast{
+        string text = 1;
+        int64 value = 2;
+        int32 feefraction = 3;
+        string timestamp = 4;
+    }   
     oneof msgtype{
         XCPCsend send= 1;
         XCPCbroadcast broadcast = 2;
