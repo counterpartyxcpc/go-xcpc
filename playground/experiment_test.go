@@ -23,6 +23,10 @@ func TestExperiment(t *testing.T) {
 	Experiment()
 }
 
+func TestExperiment2(t *testing.T) {
+	Experiment2()
+}
+
 func TestProtoOneof(t *testing.T) {
 	ProtoOneof()
 }
