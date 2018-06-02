@@ -1,6 +1,7 @@
 package playground
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -20,13 +21,15 @@ var examp = []rc4Test{
 }
 
 func TestExperiment(t *testing.T) {
+	fmt.Println("TestExperiment")
 	Experiment()
 }
 
 func TestExperiment2(t *testing.T) {
+	fmt.Println("TestExperiment2")
 	Experiment2()
 }
-
 func TestProtoOneof(t *testing.T) {
+	fmt.Println("TestProtoOneof")
 	ProtoOneof()
 }
