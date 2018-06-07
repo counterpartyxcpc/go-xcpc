@@ -1,11 +1,9 @@
-package message
+package goxcpc
 
 import (
 	"encoding/hex"
 	"fmt"
 	"testing"
-
-	xm "go-xcpc/proto"
 
 	proto "github.com/golang/protobuf/proto"
 )
@@ -87,7 +85,7 @@ var xcprc4cases = []keyciper{
 	},
 }
 
-var prototestcases = []xm.XCPCTransaction_Send{
+var prototestcases = []XCPCTransaction_Send{
 	{Asset: "XCPC", Quantity: 100, Address: "1EtwuGeP6t6bAJjKCHuRC67MFi4pqXF5i9"},
 }
 
@@ -154,22 +152,21 @@ func TestXCPRC4(t *testing.T) {
 
 // Create byte array from XCPC message
 func TestXCPCMessage(t *testing.T) {
-	var xcpmsg []byte
-	sendmsg := xm.XCPCTransaction_Send{
+	sendmsg := XCPCTransaction_Send{
 		Asset:    "XCPC",
 		Quantity: 1000,
 		Address:  "1EtwuGeP6t6bAJjKCHuRC67MFi4pqXF5i9",
 		Memo:     "Test message",
 	}
 	x := XCPCMessage{
-		tx: &xm.XCPCTransaction{
-			Msgtype: &xm.XCPCTransaction_Send_{&sendmsg},
+		txproto: &XCPCTransaction{
+			Msgtype: &XCPCTransaction_Send_{&sendmsg},
 		},
 		rc4key: []byte("1789916b3326647d973606cdbd15c4aa127e4b7079bccf599905e14a9f22593a"),
 	}
-	xcpmsg, err := x.create()
+	err := x.serialize()
 	if err != nil {
 		t.Fatalf("TestXCPCMessage error: %v", err)
 	}
-	fmt.Printf("%x\n%s\n", xcpmsg, xcpmsg)
+	fmt.Printf("%x\n%s\n", x.txbyte, x.txbyte)
 }

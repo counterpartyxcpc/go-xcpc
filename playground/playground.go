@@ -3,10 +3,9 @@ package playground
 import (
 	"encoding/hex"
 	"fmt"
-	enc "go-xcpc/message"
-	xm "go-xcpc/proto"
+	xc "goxcpc"
 
-	proto "github.com/golang/protobuf/proto"
+	"github.com/golang/protobuf/proto"
 )
 
 var key = "1789916b3326647d973606cdbd15c4aa127e4b7079bccf599905e14a9f22593a"
@@ -17,9 +16,9 @@ func Experiment() {
 	var enctx []byte
 	var hexkey []byte
 
-	prototx := xm.XCPCTransaction_Send{Asset: "XCPC", Quantity: 100, Address: "1EtwuGeP6t6bAJjKCHuRC67MFi4pqXF5i9", Memo: "this is the test"}
-	tx := xm.XCPCTransaction{
-		Msgtype: &xm.XCPCTransaction_Send_{&prototx},
+	prototx := xc.XCPCTransaction_Send{Asset: "XCPC", Quantity: 100, Address: "1EtwuGeP6t6bAJjKCHuRC67MFi4pqXF5i9", Memo: "this is the test"}
+	tx := xc.XCPCTransaction{
+		Msgtype: &xc.XCPCTransaction_Send_{&prototx},
 	}
 
 	fmt.Printf("%v", tx.GetMsgtype())
@@ -35,7 +34,7 @@ func Experiment() {
 		panic(err)
 	}
 
-	encmsg, err := enc.Rc4Enc(hexkey, plaintx)
+	encmsg, err := xc.Rc4Enc(hexkey, plaintx)
 	if err != nil {
 		panic(err)
 	}
@@ -49,9 +48,9 @@ func Experiment2() {
 	var enctx []byte
 	var hexkey []byte
 
-	prototx := &xm.XCPCTransaction_Broadcast{Text: "XCPC", Value: 100, Feefraction: 1000, Timestamp: "27-May-2018"}
-	tx := &xm.XCPCTransaction{
-		Msgtype: &xm.XCPCTransaction_Broadcast_{prototx},
+	prototx := &xc.XCPCTransaction_Broadcast{Text: "XCPC", Value: 100, Feefraction: 1000, Timestamp: "27-May-2018"}
+	tx := &xc.XCPCTransaction{
+		Msgtype: &xc.XCPCTransaction_Broadcast_{prototx},
 	}
 	// plaintx is the plain protobuf message
 	plaintx, err := proto.Marshal(tx)
@@ -66,7 +65,7 @@ func Experiment2() {
 		panic(err)
 	}
 
-	encmsg, err := enc.Rc4Enc(hexkey, plaintx)
+	encmsg, err := xc.Rc4Enc(hexkey, plaintx)
 	if err != nil {
 		panic(err)
 	}
@@ -80,8 +79,8 @@ func Experiment2() {
 func ProtoOneof() {
 	// This function runs the test for protobuf dealing with different transaction
 	// type of messages.
-	tx_broadcast := &xm.XCPCTransaction{
-		Msgtype: &xm.XCPCTransaction_Broadcast_{
+	tx_broadcast := &xc.XCPCTransaction{
+		Msgtype: &xc.XCPCTransaction_Broadcast_{
 			&xm.XCPCTransaction_Broadcast{
 				Text:        "broadcast msg",
 				Value:       100000000,
@@ -90,9 +89,9 @@ func ProtoOneof() {
 			},
 		},
 	}
-	tx_send := &xm.XCPCTransaction{
-		Msgtype: &xm.XCPCTransaction_Send_{
-			&xm.XCPCTransaction_Send{
+	tx_send := &xc.XCPCTransaction{
+		Msgtype: &xc.XCPCTransaction_Send_{
+			&xc.XCPCTransaction_Send{
 				Asset:    "XCPC",
 				Quantity: 1000,
 				Address:  "Test_address",
@@ -104,11 +103,11 @@ func ProtoOneof() {
 	response(tx_send)
 }
 
-func response(m *xm.XCPCTransaction) {
+func response(m *xc.XCPCTransaction) {
 	switch x := m.Msgtype.(type) {
-	case *xm.XCPCTransaction_Broadcast_:
+	case *xc.XCPCTransaction_Broadcast_:
 		fmt.Println("broadcase message")
-	case *xm.XCPCTransaction_Send_:
+	case *xc.XCPCTransaction_Send_:
 		fmt.Println("send message")
 	case nil:
 		fmt.Println("no message assigned")

@@ -1,12 +1,19 @@
-package message
+package goxcpc
 
 import (
-	rc "crypto/rc4"
-	xe "go-xcpc/error"
-	xm "go-xcpc/proto"
+	"crypto/rc4"
 
 	"github.com/golang/protobuf/proto"
 )
+
+// XCPCTypeError indicate the message is not a valid xcpc message
+type XCPCTypeError struct {
+	Msg string
+}
+
+func (e XCPCTypeError) Error() string {
+	return e.Msg
+}
 
 // XCPCMessageOperation interface
 type XCPCMessageOperation interface {
@@ -16,14 +23,14 @@ type XCPCMessageOperation interface {
 
 // XCPCMessage is the wrapper structure that contain main transaction body of message
 type XCPCMessage struct {
-	txproto *xm.XCPCTransaction
+	txproto *XCPCTransaction
 	txbyte  []byte
 	rc4key  []byte
 }
 
 // Rc4Enc Encrypt the byte message using RC4 encryption
 func Rc4Enc(key, mes []byte) ([]byte, error) {
-	c, err := rc.NewCipher(key)
+	c, err := rc4.NewCipher(key)
 	ciphertext := make([]byte, len(mes))
 	c.XORKeyStream(ciphertext, mes)
 	c.Reset()
@@ -55,7 +62,7 @@ func (m XCPCMessage) loadxcpc(b []byte) error {
 		if b[i] == v {
 			continue
 		} else {
-			return xe.XCPCTypeError{"Not a valid XCPC message"}
+			return XCPCTypeError{"Not a valid XCPC message"}
 		}
 	}
 	return nil
