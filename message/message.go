@@ -2,10 +2,17 @@ package message
 
 import (
 	rc "crypto/rc4"
+	xe "go-xcpc/error"
 	xm "go-xcpc/proto"
 
 	"github.com/golang/protobuf/proto"
 )
+
+// XCPCMessageOperation interface
+type XCPCMessageOperation interface {
+	serialize() error
+	loadxcpc() error
+}
 
 // XCPCMessage is the wrapper structure that contain main transaction body of message
 type XCPCMessage struct {
@@ -23,18 +30,18 @@ func Rc4Enc(key, mes []byte) ([]byte, error) {
 	return ciphertext, err
 }
 
-func (m XCPCMessage) create() error {
-	// create() generate byte array from XCPCmessage
+func (m XCPCMessage) serialize() error {
+	// serialize() generate byte array from XCPCmessage
 	var enctx []byte
 	// prefix of xcp message
 	var prefix = []byte{0x00, 0x58, 0x43, 0x50}
 	plaintx, err := proto.Marshal(m.txproto)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	encmsg, err := Rc4Enc(m.rc4key, plaintx)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	enctx = append(enctx, prefix...)
 	enctx = append(enctx, encmsg...)
@@ -44,11 +51,12 @@ func (m XCPCMessage) create() error {
 
 func (m XCPCMessage) loadxcpc(b []byte) error {
 	var prefix = []byte{0x00, 0x58, 0x43, 0x50}
-	for i, e := range prefix {
-		if b[i] == e {
+	for i, v := range prefix {
+		if b[i] == v {
 			continue
 		} else {
-			continue
+			return xe.XCPCTypeError{"Not a valid XCPC message"}
 		}
 	}
+	return nil
 }
