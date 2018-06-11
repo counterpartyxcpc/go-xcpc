@@ -1,4 +1,4 @@
-package goxcpc
+package xcpc
 
 import (
 	"encoding/hex"
@@ -151,22 +151,48 @@ func TestXCPRC4(t *testing.T) {
 }
 
 // Create byte array from XCPC message
-func TestXCPCMessage(t *testing.T) {
+func TestMessageSerialize(t *testing.T) {
 	sendmsg := XCPCTransaction_Send{
 		Asset:    "XCPC",
 		Quantity: 1000,
 		Address:  "1EtwuGeP6t6bAJjKCHuRC67MFi4pqXF5i9",
 		Memo:     "Test message",
 	}
-	x := XCPCMessage{
+	x := &Message{
 		txproto: &XCPCTransaction{
 			Msgtype: &XCPCTransaction_Send_{&sendmsg},
 		},
 		rc4key: []byte("1789916b3326647d973606cdbd15c4aa127e4b7079bccf599905e14a9f22593a"),
 	}
-	err := x.serialize()
+	err := x.Serialize()
 	if err != nil {
 		t.Fatalf("TestXCPCMessage error: %v", err)
 	}
 	fmt.Printf("%x\n%s\n", x.txbyte, x.txbyte)
+}
+
+func TestMessageLoad(t *testing.T) {
+	var msg = []byte("00584350505254590262102a7214687a9000000002540be4006fd6055fc8cfd9007d108ca5f796fce8e4d5bbcb8a2e2e2e2e2e2e2e2e2e2e")
+	b := make([]byte, hex.DecodedLen(len(msg)))
+	n, err := hex.Decode(b, msg)
+	if err != nil {
+		t.Fatalf("test load %s fail:\n%x hex decode error\ndecoded bytes %d", msg, b, n)
+	}
+
+	m := &Message{}
+
+	err = m.Load(b)
+	if err != nil {
+		t.Fatalf("This test should pass, the loaded bytes%v, message body\n: %v, Error\n%v", b, m, err)
+	}
+	var b2 = []byte("505254590262102a7214687a9000000002540be4006fd6055fc8cfd9007d108ca5f796fce8e4d5bbcb8a2e2e2e2e2e2e2e2e2e2e")
+	err = m.Load(b2)
+	if err != nil {
+		switch v := err.(type) {
+		case TypeError:
+			fmt.Printf("This test should fail:\n %v\n", v)
+		default:
+			t.Fatalf("Not correct error type, %v", v)
+		}
+	}
 }

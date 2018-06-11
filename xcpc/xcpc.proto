@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package goxcpc;
+package xcpc;
 
 message XCPCTransaction{
     oneof msgtype{

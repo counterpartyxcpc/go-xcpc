@@ -1,4 +1,4 @@
-package goxcpc
+package xcpc
 
 import (
 	"crypto/rc4"
@@ -6,23 +6,17 @@ import (
 	"github.com/golang/protobuf/proto"
 )
 
-// XCPCTypeError indicate the message is not a valid xcpc message
-type XCPCTypeError struct {
+// TypeError indicate the message is not a valid xcpc message
+type TypeError struct {
 	Msg string
 }
 
-func (e XCPCTypeError) Error() string {
+func (e TypeError) Error() string {
 	return e.Msg
 }
 
-// XCPCMessageOperation interface
-type XCPCMessageOperation interface {
-	serialize() error
-	loadxcpc() error
-}
-
-// XCPCMessage is the wrapper structure that contain main transaction body of message
-type XCPCMessage struct {
+// Message is the wrapper structure that contain main transaction body of message
+type Message struct {
 	txproto *XCPCTransaction
 	txbyte  []byte
 	rc4key  []byte
@@ -37,7 +31,8 @@ func Rc4Enc(key, mes []byte) ([]byte, error) {
 	return ciphertext, err
 }
 
-func (m XCPCMessage) serialize() error {
+// Serialize generate byte array from XCPCmessage structure
+func (m *Message) Serialize() error {
 	// serialize() generate byte array from XCPCmessage
 	var enctx []byte
 	// prefix of xcp message
@@ -56,14 +51,16 @@ func (m XCPCMessage) serialize() error {
 	return err
 }
 
-func (m XCPCMessage) loadxcpc(b []byte) error {
+//Load create XCPCMessage structure from byte array
+func (m *Message) Load(b []byte) error {
 	var prefix = []byte{0x00, 0x58, 0x43, 0x50}
 	for i, v := range prefix {
 		if b[i] == v {
 			continue
 		} else {
-			return XCPCTypeError{"Not a valid XCPC message"}
+			return TypeError{"Not a valid XCPC message, mismatch XCPC prefix"}
 		}
 	}
+	m.txbyte = b
 	return nil
 }
