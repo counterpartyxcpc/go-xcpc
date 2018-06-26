@@ -3,7 +3,8 @@ package playground
 import (
 	"encoding/hex"
 	"fmt"
-	xc "goxcpc"
+
+	xc "github.com/CounterpartyXCPC/go-xcpc/xcpc"
 
 	"github.com/golang/protobuf/proto"
 )
@@ -81,7 +82,7 @@ func ProtoOneof() {
 	// type of messages.
 	tx_broadcast := &xc.XCPCTransaction{
 		Msgtype: &xc.XCPCTransaction_Broadcast_{
-			&xm.XCPCTransaction_Broadcast{
+			&xc.XCPCTransaction_Broadcast{
 				Text:        "broadcast msg",
 				Value:       100000000,
 				Feefraction: 100000,
