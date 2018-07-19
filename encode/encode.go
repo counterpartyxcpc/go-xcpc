@@ -1,4 +1,4 @@
-package xcpc_encode
+package encode
 
 import (
 	"crypto/rc4"
