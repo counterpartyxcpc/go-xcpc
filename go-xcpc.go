@@ -14,7 +14,7 @@
 //                       pppppp    
 
 // ======================================================================
-// Copyright © 2018. Counterpart Cash Association (CCA) Zug, CH.
+// Copyright © 2018. Counterparty Cash Association (CCA) Zug, CH.
 // All Rights Reserved. All work owned by CCA is herby released 
 // under Creative Commons Zero (0) License.
 
@@ -48,17 +48,18 @@ import (
 	// =======================
 	// Golang Standard library
 	// =======================
-	"errors"	// implements functions to manipulate errors
-	"io"		// basic interfaces to I/O primitives
-	"os"		// platform-independent interface to operating system functionality
-	"syscall"	// interface to the low-level operating system primitives
-	"github.com/syndtr/goleveldb/leveldb"		// Implementation of the LevelDB key/value database.
+	"errors"	// Implements functions to manipulate errors
+	"fmt"		// Implements formatted I/O with functions
+	"io"		// Basic interfaces to I/O primitives
+	"os"		// Platform-independent interface to operating system functionality
+	"syscall"	// Interface to the low-level operating system primitives
 
 	// ====================
 	// Third-party packages
 	// ====================
 	"github.com/CounterpartyXCPC/gocoin-cash"	// Gocoin-cash is a full Bitcoin Cash solution written in Go language (golang)
-
+	"github.com/syndtr/goleveldb/leveldb"		// Implementation of the LevelDB key/value database.
+	
 	// =========================
 	// Conterparty Cash packages
 	// =========================
