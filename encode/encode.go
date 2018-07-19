@@ -1,12 +1,11 @@
-package xcpc
+package xcpc_encode
 
 import (
 	"crypto/rc4"
-
 	"github.com/golang/protobuf/proto"
 )
 
-// TypeError indicate the message is not a valid xcpc message
+// TypeError indicate the message is not a valid xcpc_tx message
 type TypeError struct {
 	Msg string
 }

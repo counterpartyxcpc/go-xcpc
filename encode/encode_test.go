@@ -1,4 +1,4 @@
-package xcpc
+package xcpc_encode
 
 import (
 	"encoding/hex"
