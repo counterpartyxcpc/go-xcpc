@@ -2,6 +2,8 @@ package encode
 
 import (
 	"crypto/rc4"
+
+	xc "github.com/CounterpartyXCPC/go-xcpc/protobuf"
 	"github.com/golang/protobuf/proto"
 )
 
@@ -16,7 +18,7 @@ func (e TypeError) Error() string {
 
 // Message is the wrapper structure that contain main transaction body of message
 type Message struct {
-	txproto *XCPCTransaction
+	txproto *xc.XCPCTransaction
 	txbyte  []byte
 	rc4key  []byte
 }

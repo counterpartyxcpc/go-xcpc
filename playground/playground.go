@@ -4,7 +4,9 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	xc "github.com/CounterpartyXCPC/go-xcpc/xcpc"
+	encode "github.com/CounterpartyXCPC/go-xcpc/encode"
+
+	xc "github.com/CounterpartyXCPC/go-xcpc/protobuf"
 
 	"github.com/golang/protobuf/proto"
 )
@@ -35,7 +37,7 @@ func Experiment() {
 		panic(err)
 	}
 
-	encmsg, err := xc.Rc4Enc(hexkey, plaintx)
+	encmsg, err := encode.Rc4Enc(hexkey, plaintx)
 	if err != nil {
 		panic(err)
 	}
@@ -66,7 +68,7 @@ func Experiment2() {
 		panic(err)
 	}
 
-	encmsg, err := xc.Rc4Enc(hexkey, plaintx)
+	encmsg, err := encode.Rc4Enc(hexkey, plaintx)
 	if err != nil {
 		panic(err)
 	}

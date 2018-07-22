@@ -7,12 +7,12 @@ message XCPCTransaction{
         Send send= 1;
         Broadcast broadcast = 2;
     }
-    
+
     message Send{
         string asset = 1;
         uint64 quantity = 2;
         string address = 3;
-        string memo = 4; 
+        string memo = 4;
     }
 
     message Broadcast{

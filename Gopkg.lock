@@ -2,14 +2,73 @@
 
 
 [[projects]]
+  digest = "1:0af603403e798ffc09564e555e1db3e1d78dd2daa136343fe42edc749aa5f247"
+  name = "github.com/CounterpartyXCPC/gocoin-cash"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "6aca6f39ecc78054b56b570b77a947be6b4a91c9"
+  version = "1.9.4"
+
+[[projects]]
+  digest = "1:b63a498fc2100264747713e78481daa16826ad733554df58d6cba5c7a4f80ad9"
+  name = "github.com/dchest/siphash"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "4ebf1de738443ea7f45f02dc394c4df1942a126d"
+  version = "v1.1.0"
+
+[[projects]]
+  digest = "1:15042ad3498153684d09f393bbaec6b216c8eec6d61f63dff711de7d64ed8861"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
+  pruneopts = "UT"
   revision = "b4deda0973fb4c70b50d226b1af49f3da59f5265"
   version = "v1.1.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:4a0c6bb4805508a6287675fac876be2ac1182539ca8a32468d8128882e9d5009"
+  name = "github.com/golang/snappy"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "2e65f85255dbc3072edf28d6b5b8efc472979f5a"
+
+[[projects]]
+  branch = "master"
+  digest = "1:922191411ad8f61bcd8018ac127589bb489712c1d1a0ab2497aca4b16de417d2"
+  name = "github.com/syndtr/goleveldb"
+  packages = [
+    "leveldb",
+    "leveldb/cache",
+    "leveldb/comparer",
+    "leveldb/errors",
+    "leveldb/filter",
+    "leveldb/iterator",
+    "leveldb/journal",
+    "leveldb/memdb",
+    "leveldb/opt",
+    "leveldb/storage",
+    "leveldb/table",
+    "leveldb/util",
+  ]
+  pruneopts = "UT"
+  revision = "c4c61651e9e37fa117f53c5a906d3b63090d8445"
+
+[[projects]]
+  branch = "master"
+  digest = "1:f804354850ef747f20e387a75e04dfc64a205ab342f7086b7d77796865ff5ede"
+  name = "golang.org/x/crypto"
+  packages = ["ripemd160"]
+  pruneopts = "UT"
+  revision = "a2144134853fc9a27a7b1e3eb4f19f1a76df13c9"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "bec22e59627e3bdfe025f1ea4e1f36e9316d24858ef3b4b229335ade1634a6b7"
+  input-imports = [
+    "github.com/CounterpartyXCPC/gocoin-cash",
+    "github.com/golang/protobuf/proto",
+    "github.com/syndtr/goleveldb/leveldb",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
