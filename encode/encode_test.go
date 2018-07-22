@@ -1,9 +1,11 @@
-package  encode
+package encode
 
 import (
 	"encoding/hex"
 	"fmt"
 	"testing"
+
+	xc "github.com/CounterpartyXCPC/go-xcpc/protobuf"
 
 	proto "github.com/golang/protobuf/proto"
 )
@@ -85,7 +87,7 @@ var xcprc4cases = []keyciper{
 	},
 }
 
-var prototestcases = []XCPCTransaction_Send{
+var prototestcases = []xc.XCPCTransaction_Send{
 	{Asset: "XCPC", Quantity: 100, Address: "1EtwuGeP6t6bAJjKCHuRC67MFi4pqXF5i9"},
 }
 
@@ -152,15 +154,15 @@ func TestXCPRC4(t *testing.T) {
 
 // Create byte array from XCPC message
 func TestMessageSerialize(t *testing.T) {
-	sendmsg := XCPCTransaction_Send{
+	sendmsg := xc.XCPCTransaction_Send{
 		Asset:    "XCPC",
 		Quantity: 1000,
 		Address:  "1EtwuGeP6t6bAJjKCHuRC67MFi4pqXF5i9",
 		Memo:     "Test message",
 	}
 	x := &Message{
-		txproto: &XCPCTransaction{
-			Msgtype: &XCPCTransaction_Send_{&sendmsg},
+		txproto: &xc.XCPCTransaction{
+			Msgtype: &xc.XCPCTransaction_Send_{&sendmsg},
 		},
 		rc4key: []byte("1789916b3326647d973606cdbd15c4aa127e4b7079bccf599905e14a9f22593a"),
 	}
