@@ -115,6 +115,6 @@ func response(m *xc.XCPCTransaction) {
 	case nil:
 		fmt.Println("no message assigned")
 	default:
-		fmt.Println("Default is%T", x)
+		fmt.Printf("Default is %T", x)
 	}
 }
