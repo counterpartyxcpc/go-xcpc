@@ -11,18 +11,18 @@
 //     cccccccccccc      pppppppppppppp
 //       cccccccc        pppppppppppp
 //                       pppppp
-//                       pppppp    
+//                       pppppp
 
 // ======================================================================
 // Copyright © 2018. Counterparty Cash Association (CCA) Zug, CH.
-// All Rights Reserved. All work owned by CCA is herby released 
+// All Rights Reserved. All work owned by CCA is herby released
 // under Creative Commons Zero (0) License.
 
 // Some rights of 3rd party, derivative and included works remain the
 // property of thier respective owners. All marks, brands and logos of
 // member groups remain the exclusive property of their owners and no
-// right or endorsement is conferred by reference to thier organization 
-// or brand(s) by CCA. 
+// right or endorsement is conferred by reference to thier organization
+// or brand(s) by CCA.
 
 // File:		go-bftx.go
 // Description:	Applicaiton main file.
@@ -34,7 +34,7 @@
 // Clayton Wong, Development
 // Piotr Narewski, Gocoin Founder
 
-// + Other contributors 
+// + Other contributors
 
 // =====================================================================
 
@@ -48,22 +48,22 @@ import (
 	// =======================
 	// Golang Standard library
 	// =======================
-	"errors"	// Implements functions to manipulate errors
-	"fmt"		// Implements formatted I/O with functions
-	"io"		// Basic interfaces to I/O primitives
-	"os"		// Platform-independent interface to operating system functionality
-	"syscall"	// Interface to the low-level operating system primitives
+	"errors"    // Implements functions to manipulate errors
+	_ "fmt"     // Implements formatted I/O with functions
+	_ "io"      // Basic interfaces to I/O primitives
+	_ "os"      // Platform-independent interface to operating system functionality
+	_ "syscall" // Interface to the low-level operating system primitives
 
 	// ====================
 	// Third-party packages
 	// ====================
-	"github.com/CounterpartyXCPC/gocoin-cash"	// Gocoin-cash is a full Bitcoin Cash solution written in Go language (golang)
-	"github.com/syndtr/goleveldb/leveldb"		// Implementation of the LevelDB key/value database.
-	
+	_ "github.com/CounterpartyXCPC/gocoin-cash" // Gocoin-cash is a full Bitcoin Cash solution written in Go language (golang)
+	_ "github.com/syndtr/goleveldb/leveldb"     // Implementation of the LevelDB key/value database.
+
 	// =========================
 	// Conterparty Cash packages
 	// =========================
-	"github.com/CounterpartyXCPC/go-xcpc/encode"	// xcpc_tx encoder
+	_ "github.com/CounterpartyXCPC/go-xcpc/encode" // xcpc_tx encoder
 )
 
 var errNotSupported = errors.New("not supported")
